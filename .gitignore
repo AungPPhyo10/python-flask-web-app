@@ -1,0 +1,14 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+
+# Flask instance folder
+instance/
+*.db
+
+# Environment variables
+.env
+.env.*
