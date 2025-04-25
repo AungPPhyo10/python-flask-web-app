@@ -10,12 +10,15 @@
               </button>
         </li>
     {% endfor %}
+</ul>
+<br>
     <form method="POST">
         <textarea name="note" id="note" class="form-control" placeholder="Enter text here..."></textarea>
         <br>
         <div align="center">
-            <button type="submit" class="btn btn-primary mt-2">Submit</button>
-        </div>
-        
+            <button type="submit" class="btn btn-dark mt-2">Submit</button>
+        </div>  
     </form>
+    
+<script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
 {% endblock %}

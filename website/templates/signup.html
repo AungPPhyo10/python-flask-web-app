@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Sign Up{% endblock %}
 {% block content %}
-    <form method="POST" class="mt-4 bg-light p-3 rounded shadow-sm" style="max-width: 400px; margin: auto;">
+    <form method="POST" class="mt-4 bg-light p-3 shadow-sm" style="max-width: 400px; margin: auto; border:solid black 1px; border-radius: 5px;">
         <h3 align="center" class="my-2">Sign Up</h3>
         <div class="form-group">
             <label for="email">Email :</label>
@@ -13,7 +13,9 @@
             <label for="password2">Password (Confirm) :</label>
             <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirm password" required>
         </div>
-        <button type="submit" class="btn btn-secondary">Submit</button>
+        <div align="center">
+            <button type="submit" class="btn btn-dark mt-2">Submit</button>
+        </div> 
     </form>
 
 {% endblock %}

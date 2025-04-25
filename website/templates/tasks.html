@@ -2,6 +2,41 @@
 {% block title %}Tasks{% endblock %}
 {% block content %}
 
-<h2>Oi, here are your tasks!</h2>>
+<div class="form-container my-4">
+    <h3 class="text-center mb-3"><em><u>Add a task</u></em></h3>
+    <form method="POST" action="add" class="mt-4 bg-light p-3 shadow-sm" style="max-width: 400px; margin: auto; border:solid black 1px; border-radius: 5px;">
+        <div class="form-group mb-2">
+            <label for="title">Title of task:</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Enter task title" required>
+        </div>
+        <div class="form-group mb-2">
+            <label for="description">Description of task:</label>
+            <input type="text" class="form-control" id="description" name="description" placeholder="Enter task description" required>
+        </div>
+        <div align="center">
+            <button type="submit" class="btn btn-dark mt-2">Submit</button>
+        </div> 
+    </form>
+</div>
+
+<hr>
+
+<h1 class="container-fluid text-center mt-2 mb-4">My To-Do-Lists</h1>
+
+<ul class="list-group list-group-flush" id="tasks">
+    {% for task in user.tasks %}
+         <div type="card" class="list-group-item bg-light my-2" style="border:solid 1px black; border-radius:5px;">
+            <div class="card-body">
+                <h5 class="card-title">{{ task.title }}</h5>
+                <p class="card-text">{{ task.description }}</p> 
+                <button type="button" class="btn btn-sm btn-warning me-3" onClick="updateTask('{{ task.id }}')">Update Task</button>
+                <button type="button" class="btn btn-sm btn-danger" onClick="deleteTask('{{ task.id }}')">Mark As Done</button>
+            </div>
+            <div class="card-footer text-muted">
+                <small>Created at : {{ task.date }}</small>
+            </div>
+        </div>
+    {% endfor %}
+</ul>
 
 {% endblock %}
