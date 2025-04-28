@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from . import db
 from .models import Task
 import json
+from datetime import datetime
 
 tasks = Blueprint('tasks', __name__)
 
@@ -16,13 +17,25 @@ def task_page():        # cannot be same name as blueprint name
 def add_task():
     title = request.form.get('title')    
     description = request.form.get('description')
+    due_time_str = request.form.get('due_time')
+
+    due_time = None;
+    if due_time_str:
+        try:
+            due_time = datetime.strptime(due_time_str, "%Y-%m-%dT%H:%M")    # convert string to datetime object
+            if due_time < datetime.now():       # check if due time is in the past
+                flash("Due time cannot be in the past! Please select a future time.", category='error')
+                return redirect(url_for('tasks.task_page'))
+        except ValueError:
+            flash("Invalid due time format!", category='error')
+            return redirect(url_for('tasks.task_page'))
 
     if title is None or description is None:     # check if title and description are not empty
         flash("Task title or description cannot be empty!", category='error')
     elif len(title) < 1 or len(description) < 1:
         flash("Task title or description is too short!", category='error')
     else:
-        new_task = Task(title=title, description=description, user_id=current_user.id)
+        new_task = Task(title=title, description=description, due_time = due_time, user_id=current_user.id)
         db.session.add(new_task)
         db.session.commit()
         flash("Task added successfully!", category='message')   

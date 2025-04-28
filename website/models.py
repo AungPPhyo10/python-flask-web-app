@@ -21,4 +21,5 @@ class Task(db.Model):
     title = db.Column(db.String(150))  
     description = db.Column(db.String(10000))
     date = db.Column(db.DateTime(timezone=True), default=db.func.now())     # Date and time when the task was created
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))   # Foreign key to link the task to a user
+    due_time = db.Column(db.DateTime(timezone=True), nullable=True)         # Due date and time for the task (optional)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))               # Foreign key to link the task to a user
