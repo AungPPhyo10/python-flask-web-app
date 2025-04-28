@@ -29,12 +29,33 @@ def add_task():
 
     return redirect(url_for('tasks.task_page'))
 
+@tasks.route('/update', methods=['PUT'])       # Route to update a task
+@login_required
+def update_task():
+    data = request.get_json()
+    task_id = data.get('taskId')
+    new_title = data.get('title')
+    new_description = data.get('description')
+
+    task = Task.query.get(task_id)
+    if task:        # check if task exists
+        if task.user_id == current_user.id:     # check if the task belongs to current user
+            task.title = new_title
+            task.description = new_description
+            db.session.commit()
+            flash("Task updated successfully!", category='message')
+        else:
+            flash("You do not have permission to update this task.", category='error')
+    else:
+        flash("Task does not exist.", category='error')
+    return jsonify({})  # Return an empty JSON response
+
 
 @tasks.route('/delete', methods=['DELETE'])       # Route to delete a task
 @login_required
 def done_task():
     task = json.loads(request.data)     # expects a JSON object
-    taskId = task['taskId']     # get the taskID from the task object
+    taskId = task['taskId']             # get the taskID from the task object
     task = Task.query.get(taskId)
     if task:        # check if task exists
         if task.user_id == current_user.id:     # check if the task belongs to current user
