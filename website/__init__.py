@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
+from flask_migrate import Migrate
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
@@ -11,6 +12,10 @@ def create_app():
     app.config['SECRET_KEY']='my-secret-key'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
+
+    # Set the flask app environment variable to the folder where __init__.py exists 
+    # $env:FLASK_APP = "website" 
+    migrate = Migrate(app, db)
 
     from .views import views
     from .auth import auth
