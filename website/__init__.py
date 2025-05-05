@@ -3,18 +3,24 @@ from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
 
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY']='my-secret-key'
+    app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
 
     # Set the flask app environment variable to the folder where __init__.py exists 
     # $env:FLASK_APP = "website" 
+    # When making changes to the model, use 'flask db upgrade -, "I did something"'
+    # Then, use 'flask db upgrade'
     migrate = Migrate(app, db)
 
     from .views import views
